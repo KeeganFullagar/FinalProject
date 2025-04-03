@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import src.entity.Player;
+import src.tile.Tilemanager;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -15,19 +16,17 @@ public class GamePanel extends JPanel implements Runnable {
     final int originalTileSize = 16; // creates a 16x16 tile which is standard 2d game size
     final int scale = 3;
     public final int tileSize = originalTileSize * scale;
-    final int maxScreenColumn = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenColumn; // 768 pixels
-    final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+    public final int maxScreenColumn = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenColumn; // 768 pixels
+    public final int screenHeight = tileSize * maxScreenRow; // 576 pixels
+
     int FPS = 60;
+
+    Tilemanager tileM = new Tilemanager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
     Player player = new Player(this,keyH);
-
-    // Set players defualt position
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
 
     public GamePanel() {
 
@@ -87,6 +86,8 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
+        
+        tileM.draw(g2);
 
         player.draw(g2);
 
