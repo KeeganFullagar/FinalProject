@@ -33,7 +33,6 @@ public class Collision {
                 if(gp.tileM.tile[tileNumber1].collision == true || gp.tileM.tile[tileNumber2].collision == true) {
                     entity.collisionOn = true;
                 }
-
                 break;
             case "down":
                 break;
