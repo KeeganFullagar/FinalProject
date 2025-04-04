@@ -12,19 +12,19 @@ import src.main.GamePanel;
 
 public class Tilemanager {
 
-    GamePanel gp;
-    Tile[] tile;
-    int mapTileNumber[][];
+    public GamePanel gp;
+    public Tile[] tile;
+    public int mapTileNum[][];
 
     public Tilemanager(GamePanel gp) {
 
         this.gp = gp;
 
         tile = new Tile[10];
-        mapTileNumber = new int[gp.maxScreenColumn][gp.maxScreenRow];
+        mapTileNum = new int[gp.maxWolrdColumn][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("/res/maps/MapData.txt");
+        loadMap("/res/maps/WorldMap.txt");
     }
 
     public void getTileImage() {
@@ -36,9 +36,21 @@ public class Tilemanager {
 
             tile[1] = new Tile();
             tile[1].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/wall.png"));
+            tile[1].collision = true;
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/water.png"));
+            tile[2].collision = true;
+
+            tile[3] = new Tile();
+            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/dirt.png"));
+
+            tile[4] = new Tile();
+            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/bush.png"));
+            tile[4].collision = true;
+
+            tile[5] = new Tile();
+            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/res/tiles/sand.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -48,26 +60,26 @@ public class Tilemanager {
     public void loadMap(String filePath) {
 
         try {
-            InputStream is = getClass().getResourceAsStream(filePath); //filePath makes it easier to change maps
+            InputStream is = getClass().getResourceAsStream(filePath); // filePath makes it easier to change maps
             BufferedReader br = new BufferedReader(new InputStreamReader(is)); // reads the text file
 
             int column = 0;
             int row = 0;
 
-            while (column < gp.maxScreenColumn && row < gp.maxScreenRow) {
+            while (column < gp.maxWolrdColumn && row < gp.maxWorldRow) {
 
                 String line = br.readLine(); // reads single line from MapData
 
-                while (column < gp.maxScreenColumn) {
+                while (column < gp.maxWolrdColumn) {
 
                     String numbers[] = line.split(" ");
 
                     int num = Integer.parseInt(numbers[column]); // Changing from string to int
 
-                    mapTileNumber[column][row] = num;
+                    mapTileNum[column][row] = num;
                     column++;
                 }
-                if (column == gp.maxScreenColumn) {
+                if (column == gp.maxWorldRow) {
                     column = 0;
                     row++;
                 }
@@ -81,24 +93,33 @@ public class Tilemanager {
 
     public void draw(Graphics2D g2) {
 
-        int column = 0;
-        int row = 0;
-        int x = 0;
-        int y = 0;
+        int worldColumn = 0;
+        int worldRow = 0;
 
-        while (column < gp.maxScreenColumn && row < gp.maxScreenRow) {
+        while (worldColumn < gp.maxWolrdColumn && worldRow < gp.maxWorldRow) {
 
-            int tileNumber = mapTileNumber[column][row]; //this will ensure that we are getting the proper tile types
+            int tileNumber = mapTileNum[worldColumn][worldRow]; // this will ensure that we are getting the proper
+                                                                // tile types
 
-            g2.drawImage(tile[tileNumber].image, x, y, gp.tileSize, gp.tileSize, null);
-            column++;
-            x = x + gp.tileSize;
+            int worldX = worldColumn * gp.tileSize;
+            int worldY = worldRow * gp.tileSize;
+            int screenX = worldX - gp.player.worldX + gp.player.screenX; // player.screen provides offset so player can
+                                                                         // go in corners
+            int screenY = worldY - gp.player.worldY + gp.player.screenY; // returns player screen position
 
-            if (column == gp.maxScreenColumn) {
-                column = 0;
-                x = 0;
-                row++;
-                y = y + gp.tileSize;
+            if (worldX + gp.tileSize > gp.player.worldX - gp.player.screenX &&
+                    worldX - gp.tileSize < gp.player.worldX + gp.player.screenX &&
+                    worldY + gp.tileSize > gp.player.worldY - gp.player.screenY &&
+                    worldY - gp.tileSize < gp.player.worldY + gp.player.screenY) {
+
+                g2.drawImage(tile[tileNumber].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
+
+            worldColumn++;
+
+            if (worldColumn == gp.maxWolrdColumn) {
+                worldColumn = 0;
+                worldRow++;
             }
         }
 
