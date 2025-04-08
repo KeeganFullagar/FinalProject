@@ -1,4 +1,4 @@
-package src.entity;
+package edu.guilford.entity;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;

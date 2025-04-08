@@ -1,4 +1,4 @@
-package src.entity;
+package edu.guilford.entity;
 
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -7,8 +7,8 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import src.main.GamePanel;
-import src.main.KeyHandler;
+import edu.guilford.game.GamePanel;
+import edu.guilford.game.KeyHandler;
 
 public class Player extends Entity {
 
@@ -76,7 +76,7 @@ public class Player extends Entity {
             collisionOn = false;
             gp.collisionCheck.checkTile(this);
             //if collision is false then player can move
-            if(collision == false){
+            if(collisionOn == false){
                 
             switch(direction) {
             case "up": worldY = worldY - speed; break;

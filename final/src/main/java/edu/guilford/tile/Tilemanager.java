@@ -1,4 +1,4 @@
-package src.tile;
+package edu.guilford.tile;
 
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
@@ -8,7 +8,7 @@ import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-import src.main.GamePanel;
+import edu.guilford.game.GamePanel;
 
 public class Tilemanager {
 

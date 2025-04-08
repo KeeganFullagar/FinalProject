@@ -1,4 +1,4 @@
-package src.main;
+package edu.guilford.game;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
-import src.entity.Player;
-import src.tile.Tilemanager;
+import edu.guilford.entity.Player;
+import edu.guilford.tile.Tilemanager;
 
 public class GamePanel extends JPanel implements Runnable {
 

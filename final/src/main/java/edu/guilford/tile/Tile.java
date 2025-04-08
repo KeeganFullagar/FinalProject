@@ -1,4 +1,4 @@
-package src.tile;
+package edu.guilford.tile;
 
 import java.awt.image.BufferedImage;
 
